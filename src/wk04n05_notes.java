@@ -69,6 +69,49 @@ public class wk04n05_notes
 		 *  
 		 *  // exercise from class lesson, slide 15 / 30
 		 *  
+		 *  AWT Graphics (slide 15)
+		 *  
+		 *  Downcasting is generally very dangerous, since you run the risk of downcasting
+		 *  to a class level that doesnt match the class that the object was instantiated from
+		 *  
+		 *  4. Interfaces
+		 *  
+		 *  - Interfaces are class-like constructs that generally do not have data fields,
+		 *    and only define method declarations
+		 *    
+		 *  - Interfaces do not provide method bodies, they only provide method declarations
+		 *  
+		 *  - Objects cannot be instantiated from an interface
+		 *  
+		 *  - Java can only extend (inherit from) one class
+		 *  - Java CAN implement multiple interfaces.
+		 *  
+		 *  - the ability to implement multiple interfaces confers a multiple inheritance-like ability to 
+		 *    Java classes
+		 *  
+		 *  Interface = provides a method body for each of the methods declared by the interfaces that the
+		 *  class implements
+		 *  
+		 *  Abstract = a class that does not provide method bodies for all of the interface methods, whic
+		 *  means that objects cannot be instantiated from that class
+		 *  
+		 *  Example:
+		 *  
+		 *  public interface Peaceable // within file Peaceable.java
+		 *  {
+		 * 		void governPeacefully();
+		 *  }
+		 *  
+		 *  public abstract class Utopia implements Peaceable // in Utopia.java
+		 *  {
+		 *  	...
+		 *  }
+		 *  
+		 *  read/look at:
+		 *  Java API spec docs under java.awt package within the Interfaces section
+		 *  
+		 *  
+		 *  
 		 */
 		
 		

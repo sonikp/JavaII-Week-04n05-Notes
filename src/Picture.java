@@ -14,6 +14,10 @@ import java.util.List; // resolves problem with java.awt.List and java.util.List
  * Copyright Georgia Institute of Technology 2004-2005
  * @author Barbara Ericson ericson@cc.gatech.edu
  */
+
+/*
+ * Michael Floerchinger - ClassExercises Week 04 & 05
+ */
 public class Picture extends SimplePicture 
 {
   ///////////////////// constructors //////////////////////////////////
@@ -77,6 +81,8 @@ public class Picture extends SimplePicture
 	  gr.setColor(Color.red);
 	  gr.fillRect(150, 200, 50, 50);
 	  
+	  
+	  // casting a graphics object(downcasting) from graphics down to graphics2D
 	  Graphics g = this.getGraphics();
 	  Graphics2D g2 = (Graphics2D) g;	// enables use of Graphics
 	  g2.setColor(Color.BLUE);
@@ -105,8 +111,9 @@ public class Picture extends SimplePicture
   public static void main(String[] args) 
   {
      //String fileName = FileChooser.getMediaPath("640x480.jpg");
-     String fileName = "/Users/Shared/Java-Libraries/CourseCD/mediasources/640x480.jpg`";
-     Picture pictObj = new Picture(fileName);
+     //String fileName = "/Users/Shared/Java-Libraries/CourseCD/mediasources/640x480.jpg`";
+     FileChooser.setMediaPath("/Users/Shared/Java-Libraries/CourseCD/mediasources/");
+	 Picture pictObj = new Picture(FileChooser.getMediaPath("kitten.jpg"));
      System.out.println(pictObj);
      pictObj.show();
      
