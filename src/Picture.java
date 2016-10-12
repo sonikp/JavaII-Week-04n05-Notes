@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
+import java.awt.Color.*; // added as class exercise to call the color class and methods
 
 /**
  * A class that represents a picture.  This class inherits from 
@@ -17,6 +18,7 @@ import java.util.List; // resolves problem with java.awt.List and java.util.List
 
 /*
  * Michael Floerchinger - ClassExercises Week 04 & 05
+ * Module 3 Chapter 07 to 10
  */
 public class Picture extends SimplePicture 
 {
@@ -75,21 +77,118 @@ public class Picture extends SimplePicture
   
   ////////////////////// methods ///////////////////////////////////////
   
-  public void addBox()		// exercise from class lesson, slide 15 / 30
+
+  
+  /*
+   * Program 47: Draw lines by setting pixels
+   * 
+   */
+  public void drawGrid()
   {
-	  Graphics gr = this.getGraphics();
-	  gr.setColor(Color.red);
-	  gr.fillRect(150, 200, 50, 50);
+	  Pixel pixel = null;
 	  
+	  // Draw horizontal lines
+	  for ( int y = 20; y < (this.getHeight() - 1); y+=20)	// drops down to location on the y axis
+	  {
+		  for ( int x = 0; x < (this.getWidth() - 1); x++)	// draws a line across the picture
+		  {
+			  pixel = this.getPixel(x, y);
+			  pixel.setColor(Color.black);
+		  }
+	  }
 	  
-	  // casting a graphics object(downcasting) from graphics down to graphics2D
-	  Graphics g = this.getGraphics();
-	  Graphics2D g2 = (Graphics2D) g;	// enables use of Graphics
-	  g2.setColor(Color.BLUE);
-	  g2.fillRect(10, 40, 80, 60);
-	  g2.setColor(Color.RED);
-	  g2.drawString("I took the red pill", 2 ,2);
+	  // Draw vertical lines
+	  for ( int x = 20; x < (this.getWidth() - 1); x+=20)	// move across the picture 20 spaces on the x axis
+	  {
+		  for ( int y = 0; y < (this.getHeight() - 1); y++)	// draw a line going down the picture 
+		  {
+			  pixel = this.getPixel(x, y);
+			  pixel.setColor(Color.black);
+		  }
+	  }
+	  
   }
+  
+  /*
+   * Program 48: Adding a box
+   */
+  public void addBox()
+  {
+	  // get the graphics context from the picture
+	  Graphics g = this.getGraphics();
+	  
+	  // set the color to red
+	  g.setColor(Color.red);
+	  
+	  // draw the box as a filled rectangle
+	  g.fillRect(150, 200, 50, 50);		// int x, int y, width, height
+	  
+  }
+  
+  
+  /*
+   * Program 49: General Draw Box
+   * 
+   * Method to draw a filled box on the current picture
+   * @param color the color to draw the box with
+   * @param topLeftX the top LH X coordinate of the box
+   * @param topLeftY the top LH Y coordinate of the box
+   * @param width
+   * @param height
+   */
+  public void drawBox(Color color, int topLeftX, int topLeftY, int width, int height)
+  {
+	  // get the graphics context for drawing
+	  Graphics g = this.getGraphics();
+	  
+	  // set the current color
+	  g.setColor(color);
+	  
+	  // draw the filled rectangle
+	  g.fillRect(topLeftX, topLeftY, width, height);
+	  
+  }
+  
+  /*
+   * Program 50: Example of using drawing commands
+   * 
+   */
+  public void drawExample()
+  {
+	  
+	  // get the graphics objects to use for drawing
+	  Graphics graphics = this.getGraphics();
+	  
+	  // start with a black color
+	  graphics.setColor(Color.black);
+	  
+	  // draw string x=10, y=75
+	  graphics.drawString("This is a test", 100, 75);
+	  
+	  // draw a line from (10,20) to (300,50)
+	  graphics.drawLine(10, 20, 300, 50);
+	  
+	  // set color yellow
+	  graphics.setColor(Color.yellow);
+	  
+	  // draw filled rectangle upper left (0,200) width 300, height 250
+	  graphics.fillRect(0, 200, 300, 500);
+	  
+	  // set color back to black
+	  graphics.setColor(Color.black);
+	  
+	  // draw outline rectangle upperLH(10,210), width 200, height 100
+	  graphics.drawRect(10, 210, 200, 100);
+	  
+	  // draw oval enclosed by a rectangle with the top LH corner (400,10) width 200, height 100
+	  graphics.drawOval(400, 10, 200, 100);
+	  
+	  // draw arc top LH (400,300) width 200, height 150, arc starts (3 o'clock) and goes 180 degrees
+	  graphics.fillArc(400, 300, 200, 150, 0, 180);
+	  
+	  
+  }
+  
   
   
   
@@ -110,16 +209,56 @@ public class Picture extends SimplePicture
  
   public static void main(String[] args) 
   {
-     //String fileName = FileChooser.getMediaPath("640x480.jpg");
-     //String fileName = "/Users/Shared/Java-Libraries/CourseCD/mediasources/640x480.jpg`";
-     FileChooser.setMediaPath("/Users/Shared/Java-Libraries/CourseCD/mediasources/");
-	 Picture pictObj = new Picture(FileChooser.getMediaPath("kitten.jpg"));
-     System.out.println(pictObj);
-     pictObj.show();
-     
-  // exercise from class lesson
-     pictObj.addBox();	
-     
+	  
+	  /*
+	  // -------------Chapter 05 Example, Program 50-------------
+	  String fileName = FileChooser.getMediaPath("beach.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  pictureObj.drawExample();		//drawBox(Color color, int topLeftX, int topLeftY, int width, int height)
+	  pictureObj.show();
+	  // END -------------Chapter 05 Example, Program 50-------------
+	  */
+	  
+	  
+	  
+	  /*
+	  // -------------Chapter 05 Example, Program 49-------------
+	  String fileName = FileChooser.getMediaPath("beach.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  pictureObj.drawBox(java.awt.Color.red, 150, 200, 50, 50);		//drawBox(Color color, int topLeftX, int topLeftY, int width, int height)
+	  pictureObj.show();
+	  // END -------------Chapter 05 Example, Program 49-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 05 Example, Program 48-------------
+	  String fileName = FileChooser.getMediaPath("barbara.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  pictureObj.show();
+	  pictureObj.addBox();		
+	  pictureObj.show();
+	  // END -------------Chapter 05 Example, Program 48-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 05 Example, Program 47-------------
+	  String fileName = FileChooser.getMediaPath("barbara.jpg");
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  pictureObj.show();
+	  pictureObj.drawGrid();
+	  pictureObj.show();
+	  // END -------------Chapter 05 Example, Program 47-------------
+	  */
+	  
+	  
+	  
+
 
      
   }

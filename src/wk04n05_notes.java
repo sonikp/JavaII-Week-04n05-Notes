@@ -1,16 +1,29 @@
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+
 public class wk04n05_notes
 {
 	public static void main(String[] args)
 	{
-		System.out.println("Module 3");
-		System.out.println("New CourseMaterial: /Users/Shared/Java-Libraries/CourseCD");
+		System.out.print("Module 3 Chapter 07 to 10");
+		System.out.print("\tNew Course Material: /Users/Shared/Java-Libraries/CourseCD \n*************************"
+				+ "***************************************************************** \n\n");
+		
+		
+		
+		
 		
 		/*
-		 *  1. Viewing the Java API
+		 *  ***************************************************************
+		 *  Notes from lessons for Module 3 Chapter 07 to 10
+		 *  ***************************************************************
+		 *  
+		 *  1. Viewing the Java API ---------------------------------------
 		 *  
 		 *  
 		 *  
-		 *  2. Packages, related libraries
+		 *  2. Packages, related libraries ---------------------------------------
 		 *  
 		 *  package com.acme.area51.projectX.teleportation;
 		 *  
@@ -30,7 +43,7 @@ public class wk04n05_notes
 		 *  
 		 *  
 		 *  
-		 *  3. Inheritance
+		 *  3. Inheritance ---------------------------------------
 		 *  
 		 *  When a class inherits from another class, it gets all the fields (instance variables) 
 		 *  and methods of the class it inherits from.
@@ -74,7 +87,7 @@ public class wk04n05_notes
 		 *  Downcasting is generally very dangerous, since you run the risk of downcasting
 		 *  to a class level that doesnt match the class that the object was instantiated from
 		 *  
-		 *  4. Interfaces
+		 *  4. Interfaces ---------------------------------------
 		 *  
 		 *  - Interfaces are class-like constructs that generally do not have data fields,
 		 *    and only define method declarations
@@ -110,12 +123,68 @@ public class wk04n05_notes
 		 *  read/look at:
 		 *  Java API spec docs under java.awt package within the Interfaces section
 		 *  
+		 *  5. Static Methods ---------------------------------------
 		 *  
+		 *  Non-static = are methods that belong to various objects instantiated from a given class
+		 *  Non-static = are defined within a class definition, but are invoked upon the objects that have been instantiated from 
+		 *  that class
+		 *  
+		 *  Static Methods, do not belong to objects, they belong to a given class - in a sense they stay within that class
+		 *  Static Methods; are invoked upon the class, using the class name rather than an object reference
+		 *  
+		 *  Example : Non-static
+		 *  
+		 *  Account savings = new Account( 350.42 ); // Object must be created
+		 *  System.out.println( savings.getBalance ()); // Object reference uset to invoke
+		 *  
+		 *  Static method
+		 *  
+		 *  // Object does not need to be created
+		 *  System.out.println( Account.getBankName()); // Class name used to invoke
+		 *  
+		 *  Private Methods:
+		 *  
+		 *  are only methods that can only be invoked from within the object it belongs to
+		 *  are usually methods that serve as utility methods, methods that help other public methods do their jobs
+		 *  best practice to restrict visibility as much as possible
+		 *  if a method doesn't need to be public, the it should not be.
+		 *  if you can do what you need when a method is private, then it should be private.
+		 *  
+		 *  6. Another way to Draw
+		 *  
+		 *  Swing
+		 *  
+		 *  Swing is a package that provides a rich set of user-interface classes
+		 *  JFrame is a Swing class = enclosing window frame of a basic Java application
+		 *  JPanel is a Swing class = has it's own Graphics (Graphics2D) object, allowing drawing within the panel
+		 *  JPanel class has a paintComponent(Graphics g)
+		 *  paintComponent is invoked automatically by the Swing event=dispatch thread
+		 *  
+		 *   
 		 *  
 		 */
 		
 		
+		/*
 		
+		  public void addBox()		// exercise from class lesson, slide 15 / 30
+  {
+	  Graphics gr = this.getGraphics();
+	  gr.setColor(Color.red);
+	  gr.fillRect(150, 200, 50, 50);
+	  
+	  
+	  // casting a graphics object(downcasting) from graphics down to graphics2D
+	  Graphics g = this.getGraphics();
+	  Graphics2D g2 = (Graphics2D) g;	// enables use of Graphics
+	  g2.setColor(Color.BLUE);
+	  g2.fillRect(10, 40, 80, 60);
+	  g2.setColor(Color.RED);
+	  g2.drawString("I took the red pill", 2 ,2);
+  }
+		
+		
+		 */
 		
 		
 		
