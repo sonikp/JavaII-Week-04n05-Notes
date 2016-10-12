@@ -189,9 +189,136 @@ public class Picture extends SimplePicture
 	  
   }
   
+  /*
+   * Program 51: 
+   * An example of using oval and arc drawing commands
+   * 
+   */
+  public void drawFace()
+  {
+	  // get the graphics object
+	  Graphics g = this.getGraphics();
+	  
+	  // start with black color
+	  g.setColor(Color.black);
+	  
+	  // draw oval
+	  g.drawOval(130, 50, 380, 380);
+	  
+	  // draw the ovals for the eyes
+	  g.fillOval(225, 155, 40, 40);
+	  g.fillOval(375, 155, 40, 40);
+	  
+	  // draw the arcs for the eyebrows
+	  g.drawArc(225, 145, 40, 40, 45, 90);
+	  g.drawArc(375, 145, 40, 40, 45, 90);
+	  
+	  // draw the arc for the mouth
+	  g.drawArc(190, 85, 255, 255, -45, -90);
+	  
+
+  }
   
   
+  /*
+   * Program 52: 
+   * Draw a String on a picture
+   * 
+   */
+  public void drawString(String text, int x, int y)
+  {
+	  // get the graphics object
+	  Graphics graphics = this.getGraphics();
+	  
+	  // set the color
+	  graphics.setColor(Color.black);
+	  
+	  // set font
+	  graphics.setFont(new Font("Arial", Font.BOLD,24));
+	  
+	  // set string
+	  graphics.drawString(text, x, y);
+	  
+  }
   
+  
+  /*
+   * Program 53: 
+   * Draw a String on a picture
+   * 
+   */
+  public void drawHorizontalCenteredString(String text, int y)
+  {
+	  // get graphics object
+	  Graphics g = this.getGraphics();
+	  
+	  // create the font object
+	  Font font = new Font("Arial", Font.BOLD, 24);
+	  	  
+	  // set color
+	  g.setColor(Color.black);
+	  
+	  // get font metrics
+	  FontMetrics fontMetrics = g.getFontMetrics();
+	  
+	  // get width of string
+	  int strWidth = fontMetrics.stringWidth(text);
+	  
+	  // calculate center of picture
+	  int center = (int)(this.getWidth() * 0.5);
+	  
+	  // draw string in center
+	  g.drawString(text, center - (int)(strWidth * 0.5), y);
+
+  }
+  
+  /*
+   * Program 54: 
+   * Draw gray effect onto current picture
+   * 
+   */
+  public void drawGrayEffect()
+  {
+	  // create a medium gray
+	  Color medGray = new Color(100, 100, 100);
+	  
+	  // do 100 columns of medium gray
+	  for ( int x = 0; x < 100; x++)
+	  {
+		  for (int y = 0; y < 100; y++)
+		  {
+			  this.getPixel(x,y).setColor(medGray);
+		  }
+	  }
+	  
+	  // do 100 columns of gray starting at medium and getting lighter
+	  for ( int x = 100, grayLevel = 100; x < 200; x++, grayLevel++)
+	  {
+		  for ( int y = 0; y < 100; y++)
+		  {
+			  this.getPixel(x, y).setColor(new Color(grayLevel, grayLevel, grayLevel));
+		  }
+	  }
+	  
+	  // do 100 columns of gray starting at medium and getting lighter
+	  for ( int x = 200, grayLevel = 0; x < 300; x++, grayLevel++)
+	  {
+		  for ( int y = 0; y < 100; y++)
+		  {
+			  this.getPixel(x, y).setColor(new Color(grayLevel, grayLevel, grayLevel));
+		  }
+	  }
+	  
+	  // do 100 columns of medium gray
+	  for ( int x = 300; x < 400; x++)
+	  {
+		  for (int y = 0; y < 100; y++)
+		  {
+			  this.getPixel(x,y).setColor(medGray);
+		  }
+	  }
+
+  }
   
   /**
    * Method to return a string with information about this picture.
@@ -209,19 +336,67 @@ public class Picture extends SimplePicture
  
   public static void main(String[] args) 
   {
+	 
+	  
+	  // -------------Chapter 07 Example, Program 54-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("greece.jpg");	//640x480.jpg	
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  String text = "This is a text string";
+	  pictureObj.drawGrayEffect();	
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 54-------------
+	  
 	  
 	  /*
-	  // -------------Chapter 05 Example, Program 50-------------
+	  // -------------Chapter 07 Example, Program 53-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("greece.jpg");	//640x480.jpg	
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  String text = "This is a text string";
+	  pictureObj.drawHorizontalCenteredString(text, 343);	
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 53-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 52-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("greece.jpg");	//640x480.jpg	
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  pictureObj.drawString("This is a photo of Greece", 127,343);		
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 52-------------
+	  */
+
+	  /*
+	  // -------------Chapter 07 Example, Program 51-------------
+	  // Vector based representation = instructions to create drawing
+	  String fileName = FileChooser.getMediaPath("640x480.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  //pictureObj.show();
+	  pictureObj.drawFace();		
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 51-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 50-------------
 	  String fileName = FileChooser.getMediaPath("beach.jpg");		
 	  Picture pictureObj = new Picture(fileName);
 	  System.out.println(pictureObj);
 	  //pictureObj.show();
-	  pictureObj.drawExample();		//drawBox(Color color, int topLeftX, int topLeftY, int width, int height)
+	  pictureObj.drawExample();		
 	  pictureObj.show();
-	  // END -------------Chapter 05 Example, Program 50-------------
+	  // END -------------Chapter 07 Example, Program 50-------------
 	  */
-	  
-	  
 	  
 	  /*
 	  // -------------Chapter 05 Example, Program 49-------------
@@ -231,29 +406,29 @@ public class Picture extends SimplePicture
 	  //pictureObj.show();
 	  pictureObj.drawBox(java.awt.Color.red, 150, 200, 50, 50);		//drawBox(Color color, int topLeftX, int topLeftY, int width, int height)
 	  pictureObj.show();
-	  // END -------------Chapter 05 Example, Program 49-------------
+	  // END -------------Chapter 07 Example, Program 49-------------
 	  */
 	  
 	  /*
-	  // -------------Chapter 05 Example, Program 48-------------
+	  // -------------Chapter 07 Example, Program 48-------------
 	  String fileName = FileChooser.getMediaPath("barbara.jpg");		
 	  Picture pictureObj = new Picture(fileName);
 	  System.out.println(pictureObj);
 	  pictureObj.show();
 	  pictureObj.addBox();		
 	  pictureObj.show();
-	  // END -------------Chapter 05 Example, Program 48-------------
+	  // END -------------Chapter 07 Example, Program 48-------------
 	  */
 	  
 	  /*
-	  // -------------Chapter 05 Example, Program 47-------------
+	  // -------------Chapter 07 Example, Program 47-------------
 	  String fileName = FileChooser.getMediaPath("barbara.jpg");
 	  Picture pictureObj = new Picture(fileName);
 	  System.out.println(pictureObj);
 	  pictureObj.show();
 	  pictureObj.drawGrid();
 	  pictureObj.show();
-	  // END -------------Chapter 05 Example, Program 47-------------
+	  // END -------------Chapter 07 Example, Program 47-------------
 	  */
 	  
 	  
