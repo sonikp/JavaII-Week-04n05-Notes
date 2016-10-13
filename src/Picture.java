@@ -463,6 +463,8 @@ public class Picture extends SimplePicture
    * 
    * 
    */
+  
+  /*
   public Picture shear(double xFactor, double yFactor)
   {
 	  // set up the shear transform
@@ -478,9 +480,107 @@ public class Picture extends SimplePicture
 	  Graphics g2 = (Graphics) graphics;
 	  
 	  // save the current transformation and set-up to center the new image
-	  AffineTransform savedTrans = g2.t, y);;
+	  //AffineTransform savedTrans = g2.get
+	  // ** this is not working, I don't have the .getTransform method
+
+  }
+  */
+  
+  /*
+   * Program 62: Using a Gradient Paint
+   * 
+   * 
+   */
+  
+  public void drawSun(int x, int y, int width, int height)
+  {
+	  // get the graphics2D object for this picture
+	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;
+	  
+	  // create a gradient for painting from yellow to red
+	  float xMid = (float)(width / 0.5 + x);
+	  GradientPaint gPaint = new GradientPaint(xMid, y, Color.yellow,xMid, y + height, Color.red);
+	  
+	  // set the gradient and draw the ellipse
+	  g2D.setPaint(gPaint);
+	  g2D.fill(new Ellipse2D.Double(x, y, width, height));
+	  
+  }
+  
+  
+
+  /*
+   * Program 63: Overlap Pictures Using AlphaComposite
+   * 
+   * Method to overlap one picture with another
+   * 
+   */
+  
+  public void overlapPictures(Picture p1, Picture p2, int startOverlap)
+  {
+	  int amountOverlap = p1.getWidth() - startOverlap;
+	  
+	  // get the Graphics2D object
+	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;
+	  
+	  // draw p1 up to overlap point
+	  g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)1.0f));
+	  g2D.drawImage(p1.getImage(), 0, 0, startOverlap,p1.getHeight(), 
+			  0, 0, startOverlap,p1.getHeight(), null);
+	  
+	  // draw p1 in the overlap area
+	  g2D.drawImage(p1.getImage(), startOverlap, 0, p1.getWidth(), p1.getHeight(), 
+			  startOverlap, 0, p1.getWidth(), p1.getHeight(), null);
+	  
+	  // set the composite to blend the old and new pixels 50%
+	  g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)0.5f));
+	  
+	  g2D.drawImage(p2.getImage(), startOverlap, 0, p1.getWidth(), p2.getHeight(), 
+			  0, 0, amountOverlap, p2.getHeight(), null);
+	  
+	  // draw p2 after the overlap
+	  g2D.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, (float)1.0f));
+	  
+	  g2D.drawImage(p2.getImage(), p1.getWidth(), 0, p2.getWidth() + startOverlap,
+			  p2.getHeight(), amountOverlap, 0, p2.getWidth(), p2.getHeight(), null);
+
+}
+  
+  /*
+   * Program 64: Clip an image to an Ellipse
+   * 
+   */
+  
+  public Picture clipToEllipse()
+  {
+	  
+	  int width = this.getWidth();
+	  int height = this.getHeight();
+	  Picture result = new Picture(width,height);
+	  //System.out.println(width + " \n" + height + " \n" + result);
 	  
 	  
+	  // get the graphics2D object
+	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;
+	  //System.out.println(graphics + " \n" + g2D);
+	  
+	  /*
+	  // create an ellipse to use for clipping
+	  Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, width, height);
+	  System.out.println(ellipse);
+	  
+	  // use the ellipse for clipping
+	  g2D.setClip(ellipse);
+	  */
+	  
+	  // draw image
+	  g2D.drawImage(this.getImage(), 0, 0, width, height, null);
+	  
+	  // return the result
+	  return result;
 	  
 	  
   }
@@ -501,7 +601,41 @@ public class Picture extends SimplePicture
  
   public static void main(String[] args) 
   {
+	  // ****AffineTransforms are not working
 	  
+	  // -------------Chapter 07 Example, Program 64-------------
+	  // 	Draw sun in photo
+	  Picture p = new Picture(FileChooser.getMediaPath("beach.jpg"));
+	  System.out.println(p);
+	  Picture p2 = p.clipToEllipse();
+	  p2.show();
+	  // END -------------Chapter 07 Example, Program 63-------------
+	  
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 63-------------
+	  // 	Draw sun in photo
+	  Picture p1 = new Picture(FileChooser.getMediaPath("KatieFancy.jpg"));
+	  Picture p2 = new Picture(FileChooser.getMediaPath("swan.jpg"));
+	  Picture p3 = new Picture(FileChooser.getMediaPath("640x480.jpg"));
+	  System.out.println(p1 + "\n" + p2 + "\n" + p3 + "\n");
+	  p3.overlapPictures(p1, p2, 150);
+	  p3.show();
+	  // END -------------Chapter 07 Example, Program 63-------------
+	  */
+	  
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 62-------------
+	  // 	Draw sun in photo
+	  Picture pictureObj = new Picture(FileChooser.getMediaPath("beach.jpg"));
+	  System.out.println(pictureObj);
+	  pictureObj.drawSun(201, 80, 40, 40);
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 62-------------
+	  */
+	  
+	  /*
 	  // -------------Chapter 07 Example, Program 61-------------
 	  // 	Error in code ???
 	  Picture pictureObj = new Picture(FileChooser.getMediaPath("carolina.jpg"));
@@ -510,6 +644,7 @@ public class Picture extends SimplePicture
 	  // the above line doesn't work
 	  pictureObjNew.show();
 	  // END -------------Chapter 07 Example, Program 61-------------
+	  */
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 60-------------
