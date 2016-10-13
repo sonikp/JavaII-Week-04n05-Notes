@@ -11,6 +11,15 @@ public class wk04n05_notes
 				+ "***************************************************************** \n\n");
 		
 		
+		/*
+		 * Program 59: Important note on inheritance
+		 * 
+		 * An object of a child class can invoke public methods that are
+		 * defined in a parent class just as if they were defined in the child class.
+		 * An object of a child class can also access any public fields in a parent 
+		 * class as if they were defined in the child class
+		 */
+		
 		
 		
 		

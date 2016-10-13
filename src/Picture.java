@@ -6,6 +6,8 @@ import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
 import java.awt.Color.*; // added as class exercise to call the color class and methods
+import static java.awt.Color.RED; // added by Robert as class exercise to call the color class and methods
+
 
 /**
  * A class that represents a picture.  This class inherits from 
@@ -317,10 +319,173 @@ public class Picture extends SimplePicture
 			  this.getPixel(x,y).setColor(medGray);
 		  }
 	  }
-
   }
   
-  /**
+  /*
+   * Program 55: 
+   * Draw a picture with a succession of filled rectangles with the top LH
+   * corner the darkest and the bottom RH the lightest 
+   * 
+   */
+  public void drawFilledRectangles()
+  {
+	  // get graphics object
+	  Graphics g = this.getGraphics();
+	  Color color = null;
+	  
+	  // loop 25 times
+	  for ( int i = 25; i > 0; i--)
+	  {
+		  color = new Color(i * 10, i * 5, i);
+		  g.setColor(color);
+		  g.fillRect(0, 0, i * 10, i * 10);
+	  }
+  }
+  
+  /*
+   * Program 56: Draw the picture in 7.11
+   * Method to draw a picture with a succession of rectangles on the current picture 
+   * 
+   */
+  public void drawRectangles()
+  {
+	  // get graphics object
+	  Graphics g = this.getGraphics();
+	  Color color = null;
+	  
+	  // loop 25 times
+	  for ( int i = 25; i > 0; i--)
+	  {
+		  g.setColor(Color.black);
+		  g.drawRect(i, i, i * 3, i * 4);	// 
+		  g.drawRect(100 + i * 4, 100 + i * 3, i * 8, i * 10);
+	  }
+  }
+  
+  /*
+   * Program 57: Draw an X on a picture
+   * 
+   * Method to add two crossed lines to a picture. One line will go from top to bottom,
+   * the other will go from bottom to top
+   * 
+   */
+  public void drawWideX(Color color, float width)
+  {
+	  // get the Graphics2D object
+	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2 = (Graphics2D) graphics;
+	  
+	  // set the color and brush width
+	  g2.setColor(color);
+	  g2.setStroke(new BasicStroke(width));
+	  
+	  // get the max x and y values
+	  int maxX = getWidth() - 1;
+	  int maxY = getHeight() - 1;
+	  
+	  // draw the lines
+	  g2.draw(new Line2D.Double(0, 0, maxX, maxY));
+	  g2.draw(new Line2D.Double(0, maxY, maxX, 0));
+	  
+  }
+  
+  /*
+   * Program 58: Copy a Picture to this Picture
+   * 
+   * A method to copy the passed picture into the current picture at the given x and y position
+   * in the current picture
+   * @param source the picture to copy
+   * @param x the x of the upper LH corner to copy to
+   * @param y the y of the upper LH corner to copy to
+   * 
+   */
+  public void copyPic(Picture source, int x, int y)
+  {
+	  // get the graphics object
+	  Graphics g = this.getGraphics();
+	  
+	  // copy image
+	  g.drawImage(source.getImage(), x, y, null);
+  }
+  
+  /*
+   * Program 59: Copy a Picture to this Picture using Graphics2D
+   * 
+   * A method to copy the passed picture into the current picture at the given x and y position
+   * in the current picture
+   * @param source the picture to copy
+   * @param x the x of the upper LH corner to copy to
+   * @param y the y of the upper LH corner to copy to
+   * 
+   */
+  public void copyPic2D(Picture source, int x, int y)
+  {
+	  // get picture object
+	  Graphics graphics = this.getGraphics();
+	  Graphics g2D = (Graphics2D) graphics;
+	  
+	  // copy image
+	  g2D.drawImage(source.getImage(), x, y, null);
+  }
+  
+  /*
+   * Program 60: General Scale Method
+   * 
+   * Method to create a new picture by scaling the current 
+   * picture by the given x and y factor
+   * @param xFactor the amount to scale in x
+   * @param yFactor the amount to scale in y
+   * 
+   */
+  public Picture scale(double xFactor, double yFactor)
+  {
+	  // set up the scale transform
+	  AffineTransform scaleTransform = new AffineTransform();
+	  scaleTransform.scale(xFactor, yFactor);
+	  
+	  // create a new picture object that is the right size
+	  Picture result = new Picture((int)(getWidth() * xFactor), (int)(getHeight() * yFactor));
+	  
+	  // get the graphics 2d object to draw on the result
+	  Graphics graphics = result.getGraphics();
+	  Graphics g2d = (Graphics2D) graphics;
+	  
+	  // draw the current image onto the result image scaled
+	  //g2d.drawImage(this.getImage(), scaleTransform, null);
+	  // the above line doesn't work
+	  return result;
+  }
+  
+  /*
+   * Program 61: General Shear Method
+   * 
+   * Method to create a new picture by shearing the current picture by the given x and y factors
+   * 
+   * 
+   */
+  public Picture shear(double xFactor, double yFactor)
+  {
+	  // set up the shear transform
+	  AffineTransform shearTransform = new AffineTransform();
+	  shearTransform.shear(xFactor, yFactor);
+	  Rectangle2D rect = getTransformEnclosingRect(shearTransform);
+	  
+	  // create a new picture object big enough to hold the result
+	  Picture result = new Picture((int)(Math.ceil(rect.getWidth())), (int)(Math.ceil(rect.getHeight())));
+	  
+	  // get the graphics 2d object from the result
+	  Graphics graphics = result.getGraphics();
+	  Graphics g2 = (Graphics) graphics;
+	  
+	  // save the current transformation and set-up to center the new image
+	  AffineTransform savedTrans = g2.t, y);;
+	  
+	  
+	  
+	  
+  }
+  
+  /**************************************************************
    * Method to return a string with information about this picture.
    * @return a string with information about the picture such as fileName,
    * height and width.
@@ -336,19 +501,96 @@ public class Picture extends SimplePicture
  
   public static void main(String[] args) 
   {
-	 
 	  
-	  // -------------Chapter 07 Example, Program 54-------------
+	  // -------------Chapter 07 Example, Program 61-------------
+	  // 	Error in code ???
+	  Picture pictureObj = new Picture(FileChooser.getMediaPath("carolina.jpg"));
+	  System.out.println(pictureObj);
+	  Picture pictureObjNew = pictureObj.shear(1.0, 0.0);
+	  // the above line doesn't work
+	  pictureObjNew.show();
+	  // END -------------Chapter 07 Example, Program 61-------------
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 60-------------
+	  // 	Error in code ???
+	  Picture pictureObj = new Picture(FileChooser.getMediaPath("carolina.jpg"));
+	  System.out.println(pictureObj);
+	  Picture pictureObjNew = pictureObj.scale(2.0, 0.5);
+	  // the above line doesn't work
+	  pictureObjNew.show();
+	  // END -------------Chapter 07 Example, Program 60-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 59-------------
+	  // 	
+	  Picture p1 = new Picture(FileChooser.getMediaPath("beach.jpg"));
+	  System.out.println(p1);
+	  Picture p2 = new Picture(FileChooser.getMediaPath("turtle.jpg"));
+	  System.out.println(p2);
+	  p1.copyPic2D(p2, 194, 304);
+	  p1.show();
+	  // END -------------Chapter 07 Example, Program 59-------------
+	  */
+	  
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 58-------------
+	  // 	
+	  Picture p1 = new Picture(FileChooser.getMediaPath("beach.jpg"));
+	  System.out.println(p1);
+	  Picture p2 = new Picture(FileChooser.getMediaPath("turtle.jpg"));
+	  System.out.println(p2);
+	  p1.copyPic(p2, 194, 304);
+	  p1.show();
+	  // END -------------Chapter 07 Example, Program 58-------------
+	  */
+	 
+	  /*
+	  // -------------Chapter 07 Example, Program 57-------------
 	  // 
-	  String fileName = FileChooser.getMediaPath("greece.jpg");	//640x480.jpg	
+	  String fileName = FileChooser.getMediaPath("grayMotorcycle.jpg");		
 	  Picture pictureObj = new Picture(fileName);
 	  System.out.println(pictureObj);
-	  //pictureObj.show();
-	  String text = "This is a text string";
+	  //pictureObj.drawWideX(java.awt.Color.RED, 50);
+	  pictureObj.drawWideX(RED, 50);	
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 57-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 56-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("640x480.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  pictureObj.drawRectangles();	
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 56-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 55-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("640x480.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
+	  pictureObj.drawFilledRectangles();	
+	  pictureObj.show();
+	  // END -------------Chapter 07 Example, Program 55-------------
+	  */
+	  
+	  /*
+	  // -------------Chapter 07 Example, Program 54-------------
+	  // 
+	  String fileName = FileChooser.getMediaPath("640x480.jpg");		
+	  Picture pictureObj = new Picture(fileName);
+	  System.out.println(pictureObj);
 	  pictureObj.drawGrayEffect();	
 	  pictureObj.show();
 	  // END -------------Chapter 07 Example, Program 54-------------
-	  
+	  */
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 53-------------
