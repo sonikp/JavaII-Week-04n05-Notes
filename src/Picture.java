@@ -448,10 +448,10 @@ public class Picture extends SimplePicture
 	  
 	  // get the graphics 2d object to draw on the result
 	  Graphics graphics = result.getGraphics();
-	  Graphics g2d = (Graphics2D) graphics;
+	  Graphics2D g2d = (Graphics2D) graphics;
 	  
 	  // draw the current image onto the result image scaled
-	  //g2d.drawImage(this.getImage(), scaleTransform, null);
+	  g2d.drawImage(this.getImage(), scaleTransform, null);
 	  // the above line doesn't work
 	  return result;
   }
@@ -464,7 +464,7 @@ public class Picture extends SimplePicture
    * 
    */
   
-  /*
+  
   public Picture shear(double xFactor, double yFactor)
   {
 	  // set up the shear transform
@@ -477,14 +477,25 @@ public class Picture extends SimplePicture
 	  
 	  // get the graphics 2d object from the result
 	  Graphics graphics = result.getGraphics();
-	  Graphics g2 = (Graphics) graphics;
+	  Graphics2D g2 = (Graphics2D) graphics;
 	  
 	  // save the current transformation and set-up to center the new image
-	  //AffineTransform savedTrans = g2.get
-	  // ** this is not working, I don't have the .getTransform method
+	  AffineTransform savedTrans = g2.getTransform();
+	  AffineTransform centerTrans = new AffineTransform();
+	  centerTrans.translate(0 - rect.getX(), 0 - rect.getY());
+	  g2.setTransform(centerTrans);
+	  
+	  // draw the current image onto the result image sheared
+	  g2.drawImage(this.getImage(), shearTransform, null);
+	  
+	  // reset g2 transformation to the saved one
+	  g2.setTransform(savedTrans);
+	  
+	  return result;
+	  
 
   }
-  */
+  
   
   /*
    * Program 62: Using a Gradient Paint
@@ -558,23 +569,17 @@ public class Picture extends SimplePicture
 	  
 	  int width = this.getWidth();
 	  int height = this.getHeight();
-	  Picture result = new Picture(width,height);
-	  //System.out.println(width + " \n" + height + " \n" + result);
-	  
+	  Picture result = new Picture(width, height);
 	  
 	  // get the graphics2D object
-	  Graphics graphics = this.getGraphics();
-	  Graphics2D g2D = (Graphics2D) graphics;
-	  //System.out.println(graphics + " \n" + g2D);
+	  Graphics graphics = result.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;	  
 	  
-	  /*
 	  // create an ellipse to use for clipping
 	  Ellipse2D.Double ellipse = new Ellipse2D.Double(0, 0, width, height);
-	  System.out.println(ellipse);
 	  
 	  // use the ellipse for clipping
 	  g2D.setClip(ellipse);
-	  */
 	  
 	  // draw image
 	  g2D.drawImage(this.getImage(), 0, 0, width, height, null);
@@ -582,8 +587,41 @@ public class Picture extends SimplePicture
 	  // return the result
 	  return result;
 	  
-	  
   }
+  
+  /*
+   * Problem 7.5 Draw a house
+   */
+  
+  public void drawHouse()
+  {
+	  // create the graphics object
+	  Graphics graphics = this.getGraphics();
+	  
+	  // set color
+	  graphics.setColor(Color.black);
+	  
+	  // determine center of the picture
+	  int width = this.getWidth();
+	  int height = this.getHeight();
+	  int centerX = this.getWidth() / 2;
+	  int centerY = this.getHeight() / 2;
+	  System.out.println(width + " \t" + height);
+	  System.out.println(centerX + " \t" + centerY);
+	  
+	  
+	  // draw main house
+	  graphics.drawRect((this.getWidth() / 4), (this.getHeight() / 2), 
+			  ((this.getWidth() / 4) * 2), ((this.getHeight() / 8) * 3));
+	  
+	  // draw roof
+	  graphics.drawLine((this.getWidth() / 20),((this.getHeight() / 10) * 8), centerX, (centerY / 3));
+	  graphics.drawLine(centerX, (centerY / 3), ((this.getWidth() / 20) * 19),((this.getHeight() / 10) * 8));
+	  
+	  // draw door
+	  graphics.drawRect(390, 330, 50, 80);
+  }
+  
   
   /**************************************************************
    * Method to return a string with information about this picture.
@@ -601,8 +639,16 @@ public class Picture extends SimplePicture
  
   public static void main(String[] args) 
   {
-	  // ****AffineTransforms are not working
 	  
+	  // 51 and drawface
+	  // -------------Problem 07.05 -------------------------
+	  Picture picObj = new Picture(FileChooser.getMediaPath("640x480.jpg"));
+	  System.out.println(picObj);
+	  //picObj.explore();
+	  picObj.drawHouse();
+	  picObj.explore();
+	  
+	  /*
 	  // -------------Chapter 07 Example, Program 64-------------
 	  // 	Draw sun in photo
 	  Picture p = new Picture(FileChooser.getMediaPath("beach.jpg"));
@@ -610,7 +656,7 @@ public class Picture extends SimplePicture
 	  Picture p2 = p.clipToEllipse();
 	  p2.show();
 	  // END -------------Chapter 07 Example, Program 63-------------
-	  
+	  */
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 63-------------
@@ -637,25 +683,24 @@ public class Picture extends SimplePicture
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 61-------------
-	  // 	Error in code ???
+	  // 	
 	  Picture pictureObj = new Picture(FileChooser.getMediaPath("carolina.jpg"));
 	  System.out.println(pictureObj);
 	  Picture pictureObjNew = pictureObj.shear(1.0, 0.0);
-	  // the above line doesn't work
 	  pictureObjNew.show();
 	  // END -------------Chapter 07 Example, Program 61-------------
 	  */
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 60-------------
-	  // 	Error in code ???
+	  // 	Works
 	  Picture pictureObj = new Picture(FileChooser.getMediaPath("carolina.jpg"));
 	  System.out.println(pictureObj);
 	  Picture pictureObjNew = pictureObj.scale(2.0, 0.5);
 	  // the above line doesn't work
 	  pictureObjNew.show();
 	  // END -------------Chapter 07 Example, Program 60-------------
-	  */
+	  *.
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 59-------------

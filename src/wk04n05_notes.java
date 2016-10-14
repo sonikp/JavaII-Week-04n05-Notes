@@ -11,6 +11,127 @@ public class wk04n05_notes
 				+ "***************************************************************** \n\n");
 		
 		
+		String str = new String("       this string ends with balls      ");
+		String var1 = str.trim();
+		System.out.println(str);
+		System.out.println(var1);
+		
+		/*
+		 * Chapter 07 problems
+		 * 
+		 * 7.5 --------------------------------------------------------------------------------------------------
+		 * 
+		 * Draw house in Picture.java
+		 * 
+		 * 7.4 --------------------------------------------------------------------------------------------------
+		 * 
+		 * JPEG, BMP, AutoCAD
+		 * 
+		 * 
+		 * 
+		 * 7.3 --------------------------------------------------------------------------------------------------
+		 * 
+		 * 1. what methods from the String class are inherited?
+		 * 
+		 * Methods inherited from class java.lang.Object:
+		 * clone, finalize, getClass, notify, notifyAll, wait, wait, wait
+		 * 
+		 * Methods inherited from interface java.lang.CharSequence:
+		 * chars, codePoints
+		 * 
+		 * 2. String class inherits from java.lang.Object, & java.lang.CharSequence
+		 * 
+		 * 3. Math inherits from java.lang.Object
+		 * 
+		 * 4. Integer class inherits from java.lang.Object
+		 * 
+		 * 5. the interfaces in java.lang are:
+		 *  Appendable
+			AutoCloseable
+			CharSequence
+			Cloneable
+			Comparable
+			Iterable
+			Readable
+			Runnable
+			Thread.UncaughtExceptionHandler
+			
+			6. Goto the Interface Comparable, and look at the "All Known Implementing Classes"
+			
+			7. the string class implements the following interfaces:
+			Serializable, CharSequence, Comparable<String>
+			
+			
+		 * 
+		 * 7.2 --------------------------------------------------------------------------------------------------
+		 * 
+		 * 1. endsWith
+		 * 
+		 	String str = new String("this string ends with balls");
+			boolean var1 = str.endsWith("nuts");
+			boolean var2 = str.endsWith("balls");
+			System.out.println(var1 + " \t" + var2);
+		 
+		 	2. first position of a character: indexOf();
+		 	
+		 	String str = new String("this string ends with balls");
+			int var1 = str.indexOf("a");
+			System.out.println(var1);
+		 	
+		 	3. last position of a character: lastIndexOf();
+		 	
+		 	String str = new String("this string ends with balls");
+			int var1 = str.lastIndexOf("i");
+			System.out.println(var1);
+			
+			4. removes extra whitespace before and after the other characters : trim();
+		 	
+		 	String str = new String("       this string ends with balls      ");
+			String var1 = str.trim();
+			System.out.println(str);
+			System.out.println(var1);
+		 * 
+		 * 
+		 * 
+		 * 7.1 --------------------------------------------------------------------------------------------------
+		 * 
+		 * Compression:
+		 * 
+		 * A technique used to reduce file sizes, by grouping similar data and reducing the same groupings of data.
+		 * 
+		 * A constant:
+		 * 
+		 * A constant are variables that are declared with the keyword final, which means the value of the
+		 * variable cannot change
+		 * 
+		 * Vector Graphics:
+		 * 
+		 * Graphics created using computer programs and algorithms to create a picture when desired
+		 * 
+		 * Bitmapped Graphics:
+		 * 
+		 * A image representation as a file, containing pixel representations for each location of the picture file.
+		 * 
+		 * A Package:
+		 * 
+		 * A package id a collection of related classes. Java defines a large number of classes, and for ease of use
+		 * groups similar related functions into the same package.
+		 * 
+		 * Inheritance:
+		 * 
+		 * A subclass inheriting the methods and fields for the parent class. In Java, a class can
+		 * only inherit from one parent. The subclass then inherits all the classess and methods and fields from 
+		 * all the previous inheritances 
+		 * 
+		 * An Interface
+		 * 
+		 * An interface is a boundary between two things. In Java it is a reference type. It is similar to a class. It is a collection
+		 * of abstract methods. A class implements an interface, thereby inheriting the abstract methods of the interface
+		 * 
+		 */
+		
+		
+		
 		/*
 		 * Program 59: Important note on inheritance
 		 * 
