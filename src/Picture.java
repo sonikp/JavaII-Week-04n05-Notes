@@ -597,9 +597,13 @@ public class Picture extends SimplePicture
   {
 	  // create the graphics object
 	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;
 	  
 	  // set color
-	  graphics.setColor(Color.black);
+	  g2D.setColor(Color.darkGray);
+	  
+	  // set line thickness
+	  g2D.setStroke(new BasicStroke(10));
 	  
 	  // determine center of the picture
 	  int width = this.getWidth();
@@ -611,17 +615,48 @@ public class Picture extends SimplePicture
 	  
 	  
 	  // draw main house
-	  graphics.drawRect((this.getWidth() / 4), (this.getHeight() / 2), 
+	  g2D.drawRect((this.getWidth() / 4), (this.getHeight() / 2), 
 			  ((this.getWidth() / 4) * 2), ((this.getHeight() / 8) * 3));
 	  
 	  // draw roof
-	  graphics.drawLine((this.getWidth() / 20),((this.getHeight() / 10) * 8), centerX, (centerY / 3));
-	  graphics.drawLine(centerX, (centerY / 3), ((this.getWidth() / 20) * 19),((this.getHeight() / 10) * 8));
+	  g2D.drawLine((this.getWidth() / 20),((this.getHeight() / 10) * 8), centerX, (centerY / 3));
+	  g2D.drawLine(centerX, (centerY / 3), ((this.getWidth() / 20) * 19),((this.getHeight() / 10) * 8));
 	  
 	  // draw door
-	  graphics.drawRect(390, 330, 50, 80);
+	  g2D.drawRect(390, 330, 50, 80);
   }
   
+  
+  /*
+   * Problem 7.6 Add speech bubble
+   */
+  
+  public void speechBubble()
+  {
+	  
+	  // create the graphics object
+	  Graphics graphics = this.getGraphics();
+	  Graphics2D g2D = (Graphics2D) graphics;
+	  
+	  // set color
+	  g2D.setColor(Color.GREEN);
+	  
+	  // set thickness
+	  g2D.setStroke(new BasicStroke(10));
+	  
+	  // draw oval enclosed by a rectangle with the top LH corner (400,10) width 200, height 100
+	  g2D.drawOval(400, 10, 200, 100);
+	  
+	  // draw arc
+	  g2D.drawArc(400, 90, 40, 40, 110, 100);
+	  g2D.drawArc(388, 40, 75, 95, 140, 90);	
+	  	
+	  // change text back to black
+	  g2D.setColor(Color.BLACK);
+	  // include text
+	  g2D.drawString("\"Some clever remark!!\"", 430, 70);
+	  
+  }
   
   /**************************************************************
    * Method to return a string with information about this picture.
@@ -644,8 +679,8 @@ public class Picture extends SimplePicture
 	  // -------------Problem 07.05 -------------------------
 	  Picture picObj = new Picture(FileChooser.getMediaPath("640x480.jpg"));
 	  System.out.println(picObj);
-	  //picObj.explore();
 	  picObj.drawHouse();
+	  picObj.speechBubble();
 	  picObj.explore();
 	  
 	  /*
