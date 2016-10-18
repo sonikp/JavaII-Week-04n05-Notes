@@ -623,7 +623,16 @@ public class Picture extends SimplePicture
 	  g2D.drawLine(centerX, (centerY / 3), ((this.getWidth() / 20) * 19),((this.getHeight() / 10) * 8));
 	  
 	  // draw door
-	  g2D.drawRect(390, 330, 50, 80);
+	  graphics.drawRect(390, 330, 50, 80);	// door
+	  graphics.drawRect(395, 335, 40, 40);	// window
+	  graphics.drawOval(396, 382, 5, 5);	// knob
+	 
+	 
+	  // draw two windows
+	  graphics.drawRect(200, 270, 50, 50);	// Window
+	  graphics.drawRect(280, 270, 50, 50);
+	  
+	  
   }
   
   

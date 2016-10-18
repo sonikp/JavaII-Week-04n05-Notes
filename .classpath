@@ -3,6 +3,5 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="lib" path="/Users/Shared/Java-Libraries/CourseCD/bookClasses"/>
-	<classpathentry kind="lib" path="/home/notroot/Java/JavaII/AdditionalSoftware/bookClasses"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
