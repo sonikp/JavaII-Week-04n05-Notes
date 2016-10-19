@@ -106,6 +106,24 @@ public class Sound extends SimpleSound
 			index++;
 		}
 	}
+	
+	/*
+	 * Problem 8.2 Modify to use for-each loop
+	 */
+	public void increaseVolume2()
+	{
+
+		
+		SoundSample[] sampleArray = this.getSamples();
+		SoundSample sample = null;
+		
+		// for-each loop
+		for ( SoundSample value : sampleArray)
+		{
+			System.out.println(value);
+		}
+		
+	}
   
 	/*
 	 * Program 66: Decrease an Input Sound's Volume
@@ -128,23 +146,104 @@ public class Sound extends SimpleSound
 	}
 	
 	/*
+	 * 
 	 * Program 67: Decrease an Input Sound's Volume using a for loop
 	 */
 	public void decreaseVolume2()
 	{
 		SoundSample sampleArray[] = this.getSamples();
-		SoundSample sample = null;
-		//value = null;
-		
+		SoundSample sample = null;		
 		
 		// for loop
 		for ( int i = 0; i < sampleArray.length; i++)
 		{
 			sample = sampleArray[i];
-			System.out.print(sample + " \t");
+			//System.out.print(sample + " \t");		// debug
 			sample.setValue((int)(sample.getValue() * 0.5));
 			sample = sampleArray[i];
-			System.out.print(sample + " \n");
+			//System.out.print(sample + " \n");		// debug
+		}
+	}
+	
+	/*
+	 * Program 68: Change sounds volume by a factor
+	 */
+	public void changeVolume(double factor)
+	{
+		SoundSample[] sampleArray = this.getSamples();
+		SoundSample sample = null;
+		
+		for ( int i = 0; i < sampleArray.length; i++)
+		{
+			sample = sampleArray[i];
+			sample.setValue((int)(sample.getValue() * factor));
+		}
+	}
+	
+	/*
+	 * Program 69: Normalize the sound to a Maximum amplitude
+	 */
+	public void normalize()
+	{
+		int largest = 0;
+		int maxIndex = 0;
+		SoundSample[] sampleArray = this.getSamples();
+		SoundSample sample = null;
+		int value = 0;
+		
+		// loop comparing the absolute value of the current value to the current largest
+		for (int i = 0; i < sampleArray.length; i++)
+		{
+			sample = sampleArray[i];
+			value = Math.abs(sample.getValue());	
+			//System.out.print(i + "\t" + value + "\t" + largest +  "\t" + maxIndex + "\n"); // debug
+			if ( value > largest)
+			{
+				largest = value;
+				maxIndex = i;
+			}
+		}
+		
+		// calculate the multiplier (32767.0 = constant for largest allowed value, page 281)
+		double multiplier = 32767.0 / largest;
+		
+		// print largest value and the multiplier
+		System.out.println("The largest value was " + largest + " at index " + maxIndex);
+		System.out.println("The multiplier is " + multiplier);
+		
+		// loop through all samples and multiply by the multiplier
+		for ( int i = 0; i < sampleArray.length; i++)
+		{
+			sample = sampleArray[i];
+			sample.setValue((int)(sample.getValue() * multiplier));
+		}
+		
+	}
+	
+	/*
+	 * Program 70: Set all samples to extreme volume
+	 */
+	public void forceToExtreme()
+	{
+		SoundSample[] sampleArray = this.getSamples();
+		SoundSample sample = null;
+		
+		// loop through the sample values
+		for ( int i = 0; i < sampleArray.length; i++)
+		{
+			// get the current sample
+			sample = sampleArray[i];
+			
+			// if value was +ve (or zero) set to maximum
+			if ( sample.getValue() >= 0)
+			{
+				sample.setValue(32767);
+			}
+			// else force to max -ve value
+			else 
+			{
+				sample.setValue(-32768);
+			}
 		}
 	}
 	
@@ -170,12 +269,51 @@ public class Sound extends SimpleSound
  
   public static void main(String[] args)
   {
-    
-	// Program 66; decrease volume
+	  // Problem 8.2 use for-each loop
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  System.out.println(s);
+	  s.increaseVolume2();
+
+	  
+	  /*
+	  // Program 70: set to max // min
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  System.out.println(s);
+	  s.explore();
+	  s.forceToExtreme();
+	  s.explore();
+	  */
+	  
+	  /*
+	  // Program 69: normalizing
+	  String f = "/Users/Shared/Java-Libraries/CourseCD/mediasources/preamble.wav";
+	  Sound s = new Sound(f);
+	  System.out.println(s);
+	  s.explore();
+	  s.normalize();
+	  s.explore();
+	  */
+	  
+	  /*
+	  // Program 68: change volume with a factor
+	  String f = FileChooser.getMediaPath("gettysburg.wav");
+	  Sound s = new Sound(f);
+	  System.out.println(s);
+	  s.explore();
+	  s.changeVolume(3);
+	  s.explore();
+	  */
+	  
+	  
+	  /*
+	  // Program 67; decrease volume with for loop
 	  String f = FileChooser.getMediaPath("gettysburg.wav");
 	  Sound s = new Sound(f);
 	  System.out.println(s);
 	  s.decreaseVolume2();
+	  */
 	  
 	 /*
 	  // Program 66; decrease volume
