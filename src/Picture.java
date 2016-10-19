@@ -87,14 +87,11 @@ public class Picture extends SimplePicture
   public void clearBlue()
   {
 	  Pixel[] pixelArray = this.getPixels();
-	  //Pixel pixel = null;
-	  
-	  
+		  
 	  for ( Pixel value : pixelArray)
 	  {
 		  System.out.println(value.getBlue());
 		  value.setBlue(0);
-
 	  }
   }
   
