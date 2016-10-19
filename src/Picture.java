@@ -6,6 +6,7 @@ import java.text.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
 import java.awt.Color.*; // added as class exercise to call the color class and methods
+
 import static java.awt.Color.RED; // added by Robert as class exercise to call the color class and methods
 
 
@@ -667,6 +668,9 @@ public class Picture extends SimplePicture
 	  
   }
   
+  
+  
+  
   /**************************************************************
    * Method to return a string with information about this picture.
    * @return a string with information about the picture such as fileName,
@@ -684,13 +688,22 @@ public class Picture extends SimplePicture
   public static void main(String[] args) 
   {
 	  
-	  // 51 and drawface
+	  
+	  
+	  
+	  
+	  
+	  
+	  
+	  /*
+	  // Chapter 07 problems
 	  // -------------Problem 07.05 -------------------------
 	  Picture picObj = new Picture(FileChooser.getMediaPath("640x480.jpg"));
 	  System.out.println(picObj);
 	  picObj.drawHouse();
 	  picObj.speechBubble();
 	  picObj.explore();
+	  */
 	  
 	  /*
 	  // -------------Chapter 07 Example, Program 64-------------
