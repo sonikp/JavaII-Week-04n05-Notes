@@ -126,6 +126,41 @@ public class Sound extends SimpleSound
 	}
   
 	/*
+	 * Problem 8.5: change volume, 0.5 for +ve and x2 for -ve values
+	 */
+	public void alteredVolume()
+	{
+		// create an array
+		SoundSample[] sampleArray = this.getSamples();
+		
+		// loop through all the indexes
+		for ( SoundSample value : sampleArray)
+		{
+			// display current value
+			System.out.print(value.getValue());
+			
+			// test for +ve
+			if (value.getValue() >= 0)
+			{
+				System.out.print("\t increase \t");
+				value.setValue((int)(value.getValue() * 0.5));
+			
+			}
+			// test for -ve
+			else if (value.getValue() < 0)
+			{
+				System.out.print("\t decrease \t");
+				value.setValue(value.getValue() * 2);
+			}
+			// display altered value
+			System.out.print(value.getValue() + "\n");
+			
+		}
+		
+	}
+	
+	
+	/*
 	 * Program 66: Decrease an Input Sound's Volume
 	 */
 	public void decreaseVolume()
@@ -247,6 +282,203 @@ public class Sound extends SimpleSound
 		}
 	}
 	
+	/*
+	 * Program 71: Increase the volume then decrease
+	 */
+	public void increaseAndDecrease()
+	{
+		int half = this.getLength() / 2;
+		int value = 0;
+		
+		// loop through the first half of the sound
+		for ( int i = 0; i < half; i++)
+		{
+			// get the current value
+			value = this.getSampleValueAt(i);
+			
+			// set the value to 2x the original
+			this.setSampleValueAt(i, value * 2);
+		}
+		
+		// loop through the second half of the sound
+		for ( int i = half; i < this.getLength(); i++)
+		{
+			// get the current value
+			value = this.getSampleValueAt(i);
+			
+			// set the value to half the original
+			this.setSampleValueAt(i, (int)(value * 0.5));
+			
+		}
+		
+	}
+	
+	/*
+	 * Program 72: Create a Sound Clip
+	 */
+	public Sound clip(int start, int end)
+	{
+		// calculate the number of samples in the clip
+		int lengthInSamples = end - start + 1;
+		Sound target = new Sound(lengthInSamples);	// hold clip
+		int value = 0;								// holds the current sample value
+		int targetIndex = 0;						// index in target sound
+		
+		// copy from start to end from source into target
+		for ( int i = start; i <= end; i++)
+		{
+			value = this.getSampleValueAt(i);
+			target.setSampleValueAt(i, value);
+		}
+		return target;
+	}
+	
+	/*
+	 * Program 73: Splice words into a single sentence
+	 */
+	public void splice()
+	{
+		Sound sound1 = new Sound(FileChooser.getMediaPath("guzdial.wav"));
+		Sound sound2 = new Sound(FileChooser.getMediaPath("is.wav"));
+		
+		int targetIndex = 0;	// the starting place on the target
+		int value = 0;
+		
+		// copy all of the sound 1 into the current sound (target)
+		for ( int i = 0; i < sound1.getLength(); i++, targetIndex++)
+		{
+			value = sound1.getSampleValueAt(i);
+			this.setSampleValueAt(targetIndex, value);
+		}
+		
+		// create silence between words by setting values to 0
+		for ( int i = 0; i < (int)(this.getSamplingRate() * 0.1); i++, targetIndex++)
+		{
+			
+			this.setSampleValueAt(targetIndex, 0);
+			
+		}
+		
+		// copy all of sound 2 into the current sound (target)
+		for ( int i = 0; i < sound2.getLength(); i++, targetIndex++)
+		{
+			
+			value = sound2.getSampleValueAt(i);
+			this.setSampleValueAt(targetIndex, value);
+			
+		}
+	}
+	
+	/*
+	 * Program 74: Splice words into a single sentence
+	 */
+	public void splicePreamble()
+	{
+		String file = FileChooser.getMediaPath("preamble10.wav");
+		Sound source = new Sound(file);
+		int targetIndex = 0;	// start copying to first sample value
+		int value = 0;
+		
+		// loop copying the "We the " into the current sound
+		for (int sourceIndex = 0; sourceIndex < 17407; sourceIndex++, targetIndex++ )
+		{
+			
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+			
+		}
+		
+		
+		// loop copying the "united" into the current sound
+		for (int sourceIndex = 33414; sourceIndex < 40052; sourceIndex++, targetIndex++)
+		{
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+			
+		}
+		
+		// copy the "people of the United States"
+		for ( int sourceIndex = 17408; sourceIndex < 55510; sourceIndex++, targetIndex++)
+		{
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+			
+		}
+		
+	}
+	
+	/*
+	 * Program 75: Splice Preamble and Show Target Index
+	 */
+	public void splicePreamble2()
+	{
+		String file = FileChooser.getMediaPath("preamble10.wav");
+		Sound source = new Sound(file);
+		int targetIndex = 0;
+		int value = 0;
+		
+		// loop copying the "we the " int the current sound
+		for ( int sourceIndex = 0; sourceIndex < 17407; sourceIndex++, targetIndex++)
+		{
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+		}
+		
+		// print value of the target index
+		System.out.println("Target index is " + targetIndex);
+		
+		// loop copying the "united" into the current sound
+		for (int sourceIndex = 33414; sourceIndex < 40052; sourceIndex++, targetIndex++)
+		{
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+			
+		}
+		
+		// print the value of the target index
+		System.out.println("Target index is " + targetIndex);
+		
+		// copy the "people of the United States"
+		for (int sourceIndex = 17408; sourceIndex < 55510; sourceIndex++, targetIndex++)
+		{
+			value = source.getSampleValueAt(sourceIndex);
+			this.setSampleValueAt(targetIndex, value);
+		}
+		
+		// print the value of the target index
+		System.out.println("Target index is " + targetIndex);
+		
+	}
+	
+	/*
+	 * Program 76: General Splice Methods
+	 */
+	public void splice(Sound source, int sourceStart, int sourceStop, int targetStart)
+	{
+		// loop copying from source to target
+		for ( int sourceIndex = sourceStart, targetIndex = targetStart; sourceIndex < sourceStop && targetIndex < this.getLength(); sourceIndex++, targetIndex++)
+		{
+			this.setSampleValueAt(targetIndex, source.getSampleValueAt(sourceIndex));
+			
+		}
+	}
+	
+	/*
+	 * Program 77: Using the General Splice Method
+	 */
+	public void splicePreambleTwo()
+	{
+		Sound preamble = new Sound(FileChooser.getMediaPath("sec3silence.wav"));
+		
+		// first splice the "we the " into the current sound
+		this.splice(preamble,0,17407,0);
+		
+		// now splice the "united" into the current sound
+		this.splice(preamble,33414,40052,17407);
+		
+		// now splice the "people of the United States" into the current sound
+		this.splice(preamble,17408,55510, 24045);
+	}
   
   /************************************************************
    * Method to return the string representation of this sound
@@ -269,12 +501,88 @@ public class Sound extends SimpleSound
  
   public static void main(String[] args)
   {
+	  
+	  
+	  
+	  
+	  // Program 77 & 76: 
+	  String filename = FileChooser.getMediaPath("sec3silence.wav");	
+	  Sound target = new Sound(filename);
+	  target.splicePreambleTwo();
+	  target.explore();
+	  
+	  
+	  /*
+	  // Program 75:
+	  String silence = FileChooser.getMediaPath("sec3silence.wav");	
+	  Sound target = new Sound(silence);
+	  target.explore();
+	  target.splicePreamble2();
+	  target.explore();
+	  */
+	  /*
+	  // Program 74: 
+	  String silence = FileChooser.getMediaPath("sec3silence.wav");	
+	  Sound target = new Sound(silence);
+	  target.explore();
+	  target.splicePreamble();
+	  target.explore();
+	  */
+	  
+	  /*
+	  // Chapter 9 Program 73: Splice Words into a single sentence
+	  String silence = FileChooser.getMediaPath("sec3silence.wav");
+	  Sound target = new Sound(silence);
+	  target.play();
+	  target.splice();
+	  target.play();
+	  */
+	  
+	  /*
+	  // Chapter 9 Program 72: Create a sound clip
+	  Sound test = new Sound(FileChooser.getMediaPath("thisisatest.wav"));
+	  test.explore();
+	  Sound s1 = test.clip(0, 8500);
+	  s1.explore();
+	  */
+	  /*
+	  // example to get the elements at various index values
+	  Sound sound = new Sound(FileChooser.getMediaPath("croak.wav"));
+	  SoundSample[] sampleArray = sound.getSamples();
+	  System.out.println(sampleArray[0]);
+	  System.out.println(sampleArray[1]);
+	  System.out.println(sampleArray[8000]);
+	  Sound soundNew = new Sound(FileChooser.getMediaPath("thisisatest.wav"));
+	  SoundSample[] sampleArrayNew = soundNew.getSamples();
+	  System.out.println(soundNew);
+	  soundNew.explore();
+	  */
+	  
+	  /*
+	  // Chapter 9 Program 71:
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  s.explore();
+	  s.increaseAndDecrease();
+	  s.explore();
+	  */
+	  
+	  /*
+	  // Problem 8.5: change volume 0.5 for +ve and x2 for -ve
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  System.out.println(s);
+	  s.alteredVolume();
+	  */
+	  
+	  
+	  /*
 	  // Problem 8.2 use for-each loop
 	  String f = FileChooser.getMediaPath("preamble.wav");
 	  Sound s = new Sound(f);
 	  System.out.println(s);
 	  s.increaseVolume2();
-
+	  */
 	  
 	  /*
 	  // Program 70: set to max // min

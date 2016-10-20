@@ -3,6 +3,62 @@ public class Chapter08_Problems
 	public static void main(String[] args)
 	{
 		// chapter 08 problems
+		
+		/*
+		
+		8.6 v
+		
+		1
+		2
+		3
+		
+		8.7 v
+		
+		loop increasing count indefinitely
+		
+		8.8 X
+		
+		3
+		x is 3
+		
+		8.9 v
+		
+		3, 1
+		
+		8.10 X <=== does an extra run for x = 10;???
+		
+		3, 1
+		4, 2
+		5, 3
+		6, 4
+		7, 5
+		8, 6
+		9, 7
+		
+		8.11	v
+		nothing
+		
+		8.12 v
+		
+		13, 1
+		
+		8.13 X <= error !< is not correct syntax
+		
+		increasing count from:
+		13, 1
+		
+		8.14: X <= incorrect
+		13,1 increaseing
+		
+		8.15 v
+		Nothing
+		
+		
+		
+		
+		
+		*/
+		
 		/*
 		
 		8.1

@@ -701,12 +701,13 @@ public class Picture extends SimplePicture
   public static void main(String[] args) 
   {
 	  
+	  /*
 	  // Problem 8.3 Modify program 7 to use for-each look
 	  Picture p = new Picture(FileChooser.getMediaPath("beach.jpg"));
 	  System.out.println(p);
 	  p.clearBlue();
 	  p.explore();
-	  
+	  */
 	  
 	  
 	  
