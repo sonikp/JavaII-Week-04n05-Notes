@@ -456,7 +456,9 @@ public class Sound extends SimpleSound
 	public void splice(Sound source, int sourceStart, int sourceStop, int targetStart)
 	{
 		// loop copying from source to target
-		for ( int sourceIndex = sourceStart, targetIndex = targetStart; sourceIndex < sourceStop && targetIndex < this.getLength(); sourceIndex++, targetIndex++)
+		for ( int sourceIndex = sourceStart, targetIndex = targetStart; 
+				sourceIndex < sourceStop && targetIndex < this.getLength(); 
+				sourceIndex++, targetIndex++)
 		{
 			this.setSampleValueAt(targetIndex, source.getSampleValueAt(sourceIndex));
 			
@@ -468,7 +470,7 @@ public class Sound extends SimpleSound
 	 */
 	public void splicePreambleTwo()
 	{
-		Sound preamble = new Sound(FileChooser.getMediaPath("sec3silence.wav"));
+		Sound preamble = new Sound(FileChooser.getMediaPath("preamble10.wav"));	// sec3silence.wav
 		
 		// first splice the "we the " into the current sound
 		this.splice(preamble,0,17407,0);
@@ -479,6 +481,41 @@ public class Sound extends SimpleSound
 		// now splice the "people of the United States" into the current sound
 		this.splice(preamble,17408,55510, 24045);
 	}
+	
+	/*
+	 * Program 78: Reverse a sound
+	 */
+	public void reverse()
+	{
+		Sound orig = new Sound(this.getFileName());
+		int length = this.getLength();
+		
+		// loop through the samples
+		for (int targetIndex = 0, sourceIndex = length - 1; targetIndex < length && sourceIndex > 0;
+				targetIndex++, sourceIndex--)
+		{
+			this.setSampleValueAt(targetIndex, orig.getSampleValueAt(sourceIndex));
+		}
+	}
+	
+	/*
+	 * Program 79: Mirror a sound
+	 */
+	public void mirror()
+	{
+		int length = this.getLength(); 		// save the length
+		int mirrorPoint = length / 2;		// mirror around this point
+		int value = 0;						// hold the current value
+		
+		// loop from 0 to mirrorPoint
+		for ( int i = 0; i < mirrorPoint; i++)
+		{
+			value = this.getSampleValueAt(i);
+			this.setSampleValueAt(length - 1 - i, value);
+		}
+	}
+	
+	
   
   /************************************************************
    * Method to return the string representation of this sound
@@ -501,16 +538,31 @@ public class Sound extends SimpleSound
  
   public static void main(String[] args)
   {
+	  /*
+	  // Program 79:
+	  String f = FileChooser.getMediaPath("thisisatest.wav");
+	  Sound s = new Sound(f);
+	  s.explore();
+	  s.mirror();
+	  s.explore();
+	  */
 	  
+	  /*
+	  // Program 78: Mirror
+	  String filename = FileChooser.getMediaPath("thisisatest.wav");	// croak.wav
+	  Sound hearMe = new Sound(filename);
+	  //hearMe.play();
+	  hearMe.reverse();
+	  hearMe.play();
+	  */
 	  
-	  
-	  
+	  /*
 	  // Program 77 & 76: 
 	  String filename = FileChooser.getMediaPath("sec3silence.wav");	
 	  Sound target = new Sound(filename);
 	  target.splicePreambleTwo();
-	  target.explore();
-	  
+	  target.play();
+	  */
 	  
 	  /*
 	  // Program 75:

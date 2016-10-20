@@ -1,7 +1,34 @@
-public class Chapter08_Problems
+public class Chapter_Problems
 {
+	
+	public void test1()
+	{
+		for ( int x = 5; x > 0; x--)
+		{
+			System.out.println(x);
+		}
+	}
+	
+	public String test3(int x)
+	{
+		
+		return "In Test3" + x;
+	}
+	
 	public static void main(String[] args)
 	{
+		
+		
+		Chapter_Problems n = new Chapter_Problems();
+		//n.test3(4);	// how do i display the return type.
+		System.out.println(n.test3(4));
+		
+		// chapter 09 problems
+		/*
+		
+		
+		
+		*/
 		// chapter 08 problems
 		
 		/*
