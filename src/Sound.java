@@ -256,6 +256,49 @@ public class Sound extends SimpleSound
 	}
 	
 	/*
+	 * Problem 9.13 Normalize the first 3 seconds
+	 * of a sample
+	 */
+	
+	public int normalizeAmount(int sampleLengthSeconds)
+	{
+		
+		
+		int largest = 0;
+		int maxIndex = 0;
+		double sampleLength = this.getSamplingRate() * (double)(sampleLengthSeconds);
+		System.out.println("sampleLength based on seconds: " + sampleLength);
+		SoundSample[] sampleArray = this.getSamples();
+		SoundSample sample = null;
+		int value = 0;
+		
+		// loop through to compare absolute values
+		for ( int i = 0; i < sampleLength; i++)
+		{
+			// get sound values
+			sample = sampleArray[i];
+
+			// make values +ve
+			value = Math.abs(sample.getValue());
+			
+			// find largest value
+			if ( value > largest)
+			{
+				largest = value;
+				maxIndex = i;
+			}
+		}
+		
+		// calculate the multiplies
+		double multiplier = 32767.0 / largest;
+		System.out.println("multiplier " + multiplier);
+		
+		
+		System.out.println("normalizeAmount(): largest " + largest + " \tlocation " + maxIndex);
+		return largest;
+	}
+	
+	/*
 	 * Program 70: Set all samples to extreme volume
 	 */
 	public void forceToExtreme()
@@ -340,13 +383,29 @@ public class Sound extends SimpleSound
 	 * Problem 9.13: normalize the first second, then reduce by 1/5 every second
 	 *  
 	 */
-	public void decreaseAtARate(Sound source, double percentage)
+	public void decreaseAtARate(Sound source, int seconds)
 	{
+		/*
 		int length = source.getLength();
 		double sampleRate = source.getSamplingRate();
 		System.out.println(length + " " + sampleRate);
 		double timeInSeconds =  length / sampleRate;
 		System.out.println(timeInSeconds);
+		System.out.println("------------------------");
+		System.out.println(source.getLength()/ source.getSamplingRate());
+		
+		double sampleLength = this.getSamplingRate() * (double)(seconds);
+		
+		*/
+		
+		// same formula for calculating locations
+//		double sampleLength = this.getSamplingRate() * (double)(seconds);
+		
+		source.normalizeAmount(seconds);
+		
+
+		
+		// 
 	}
 	
 	/*
@@ -578,9 +637,17 @@ public class Sound extends SimpleSound
 	  // Problem 9.13:
 	  String f = FileChooser.getMediaPath("preamble.wav");
 	  Sound s = new Sound(f);
-	  s.explore();
-	  s.decreaseAtARate(s, 25);
-	  s.explore();
+	  
+	  // get sample rate
+	 // int seconds = 1;
+	
+	 // System.out.println(s.getSamplingRate() * seconds);
+	 // System.out.println(s.getLength());
+	  
+//	  s.explore();
+	  s.decreaseAtARate(s, 1);
+//	  s.normalizeAmount(1);
+//	  s.explore();
 	  
 	  /*
 	  // Problem 9.12:
