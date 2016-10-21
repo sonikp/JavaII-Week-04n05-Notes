@@ -733,7 +733,7 @@ public class Picture extends SimplePicture
 	  // END -------------Chapter 07 Example, Program 63-------------
 	  */
 	  
-	  /*
+	  
 	  // -------------Chapter 07 Example, Program 63-------------
 	  // 	Draw sun in photo
 	  Picture p1 = new Picture(FileChooser.getMediaPath("KatieFancy.jpg"));
@@ -743,7 +743,7 @@ public class Picture extends SimplePicture
 	  p3.overlapPictures(p1, p2, 150);
 	  p3.show();
 	  // END -------------Chapter 07 Example, Program 63-------------
-	  */
+	  
 	  
 	  
 	  /*

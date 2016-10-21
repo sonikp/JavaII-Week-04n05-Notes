@@ -314,6 +314,42 @@ public class Sound extends SimpleSound
 	}
 	
 	/*
+	 * Problem 9.12: play for a % then decrease the volume 
+	 * Needs two input values, sound and % when to decrease
+	 */
+	public void decreaseAtPercentage(Sound source, double percentage)
+	{
+		int length = source.getLength();
+		double volumeDropLocation =  (percentage/100.0) * source.getLength();	// add the .0 to 100 makes this a double value
+		int value = 0;
+		
+		for ( int  i = (int)volumeDropLocation; i < length; i++)
+		{
+			
+			// get the current value
+			value = this.getSampleValueAt(i);
+		
+			// set the value to 2x the original
+			this.setSampleValueAt(i, (int)(value * 0.5));
+		}
+	}
+	
+	
+	
+	/*
+	 * Problem 9.13: normalize the first second, then reduce by 1/5 every second
+	 *  
+	 */
+	public void decreaseAtARate(Sound source, double percentage)
+	{
+		int length = source.getLength();
+		double sampleRate = source.getSamplingRate();
+		System.out.println(length + " " + sampleRate);
+		double timeInSeconds =  length / sampleRate;
+		System.out.println(timeInSeconds);
+	}
+	
+	/*
 	 * Program 72: Create a Sound Clip
 	 */
 	public Sound clip(int start, int end)
@@ -538,6 +574,23 @@ public class Sound extends SimpleSound
  
   public static void main(String[] args)
   {
+	  
+	  // Problem 9.13:
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  s.explore();
+	  s.decreaseAtARate(s, 25);
+	  s.explore();
+	  
+	  /*
+	  // Problem 9.12:
+	  String f = FileChooser.getMediaPath("preamble.wav");
+	  Sound s = new Sound(f);
+	  s.explore();
+	  s.decreaseAtPercentage(s, 25);
+	  s.explore();
+	  */
+	  
 	  /*
 	  // Program 79:
 	  String f = FileChooser.getMediaPath("thisisatest.wav");

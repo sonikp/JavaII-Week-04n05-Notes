@@ -15,13 +15,28 @@ public class Chapter_Problems
 		return "In Test3" + x;
 	}
 	
+	public String test4(int x)
+	{
+	
+		return Integer.toString(x);
+	}
+	
+	
 	public static void main(String[] args)
 	{
 		
 		
 		Chapter_Problems n = new Chapter_Problems();
-		//n.test3(4);	// how do i display the return type.
-		System.out.println(n.test3(4));
+		System.out.println(n.test4(4));
+	
+		
+		for (int i = 10; i <= 10; i++)
+		{
+	
+			System.out.println(i);
+
+		}
+		
 		
 		// chapter 09 problems
 		/*
