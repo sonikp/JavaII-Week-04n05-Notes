@@ -610,8 +610,304 @@ public class Sound extends SimpleSound
 		}
 	}
 	
+	/*
+	 * Program 80: Blending Two Sounds
+	 */
+	public void blendingSounds()
+	{
+		Sound sound1 = new Sound(FileChooser.getMediaPath("aah.wav"));
+		Sound sound2 = new Sound(FileChooser.getMediaPath("bassoon-c4.wav"));
+		int value = 0;
+		
+		// copy the first 20,000 samples from sound 1 into target
+		for ( int index = 0; index < 20000; index++)
+		{
+			this.setSampleValueAt(index, sound1.getSampleValueAt(index));
+		}
+		
+		// copy the next 20000 samples from sound1 and blend that with the first 20000 samples from sound 2
+		for ( int index = 0; index < 20000; index++)
+		{
+			value = (int)((sound1.getSampleValueAt(index + 20000) * 0.5) 
+					+ (sound2.getSampleValueAt(index) * 0.5));
+			this.setSampleValueAt(index + 20000, value);
+			
+		}
+		
+		// copy the next 20000 samples from sound2 into the target
+		for ( int index = 20000; index < 40000; index++)
+		{
+			this.setSampleValueAt(index + 20000, sound2.getSampleValueAt(index));
+			
+		}
+		
+	}
 	
+	/*
+	 * Program 81: create an echo
+	 */
+	public void echo(int delay)
+	{
+		// make a copy of the original sound
+		Sound s = new Sound(this.getFileName());
+		int value = 0;
+		
+		// loop from delay to end of sound
+		for ( int i = delay; i < this.getLength(); i++)
+		{
+			// get the value back by delay samples from the copy of the sound and make it fainter
+			value = (int)(s.getSampleValueAt(i - delay) * 0.6);
+			
+			// set the value at the current index to the sum of the current value and the echo
+			this.setSampleValueAt(i, this.getSampleValueAt(i) + value);
+		}
+	}
+	
+	
+	/*
+	 * Program 82: echo
+	 */
+	public Sound echo(int delay, int numEchoes)
+	{
+		int soundLength =  this.getLength();
+		Sound echoSound = new Sound(numEchoes * delay + soundLength);
+		int value = 0;
+		int echoIndex = 0;
+		int echoValue = 0;
+		double echoAmplitude = 1;	// to start
+		
+		// copy the original sound
+		echoSound.splice(this,0,soundLength,0);
+		
+		// loop starting with 1 to create the first echo at the right place, and end when = the number of echos
+		for ( int echoCount = 1; echoCount <= numEchoes; echoCount++)
+		{
+			// decrease the volume (amplitude) of the echo
+			echoAmplitude = echoAmplitude * 0.6;
+			
+			// echo whole sound
+			for ( int i = 0; i < soundLength; i++)
+			{
+				echoIndex = i + (delay * echoCount);
+				echoValue = (int)(this.getSampleValueAt(i) * echoAmplitude);
+				echoSound.setSampleValueAt(echoIndex, echoValue + echoSound.getSampleValueAt(echoIndex));
+			}
+		}
+		return echoSound;
+	}
+	
+	/*
+	 * Program 83: Double The Frequency of a Sound
+	 */
+	public void doubleFreq()
+	{
+		// make a copy of the original sound
+		Sound s = new Sound(this.getFileName());
+		
+		// loop through the sound and increment target index by one but source index by 2 and set target value to the copy of the original sound
+		for ( int sourceIndex = 0, targetIndex = 0; sourceIndex < this.getLength(); sourceIndex = sourceIndex + 2, targetIndex++)
+		{
+			this.setSampleValueAt(targetIndex,  s.getSampleValueAt(sourceIndex));
+		}
+		
+		// clear out the rest of the sound
+		for (int i = this.getLength() / 2; i < this.getLength(); i++)
+		{
+			this.setSampleValueAt(i, 0);
+		}
+				
+	}
+	
+	/*
+	 * Program 84: Half the frequency
+	 */
+	public void halveFreq()
+	{
+		// make a copy of the original sound
+		Sound s = new Sound(this.getFileName());
+		
+		// loop through the sound and increment target index by one but the source index by 0.5
+		for ( double sourceIndex = 0, targetIndex = 0; targetIndex < this.getLength(); sourceIndex = sourceIndex + 0.5, targetIndex++)
+		{
+			this.setSampleValueAt((int) targetIndex, s.getSampleValueAt((int) sourceIndex));
+		}
+		
+	}
+	
+	/*
+	 * Program 85: Change the Frequency
+	 * ** Broken ** will not play when the factor changes
+	 */
+	public void changeFreq(double factor)
+	{
+		// make a copy of the original sound
+		Sound s = new Sound(this.getFileName());
+		
+		// loop through the sound and increment the target index by one but increment the source index by the factor
+		for ( double sourceIndex = 0, targetIndex = 0; targetIndex < this.getLength(); sourceIndex = sourceIndex + factor, targetIndex++)
+		{
+			this.setSampleValueAt((int)targetIndex,  s.getSampleValueAt((int) sourceIndex));
+			
+		}
+	}
   
+	/*
+	 * Program 86: Changing the Frequency of a Sound
+	 */
+	public void changeFreq2(double factor)
+	{
+		// make a copy of the original sound
+		Sound s = new Sound(this.getFileName());
+		
+		// loop through the sound and increment the target index by one but increment tje source index by the factor
+		for (double sourceIndex = 0, targetIndex = 0; targetIndex < this.getLength(); sourceIndex = sourceIndex + factor, targetIndex++)
+		{
+			if (sourceIndex >= s.getLength())
+			{
+				sourceIndex = 0;
+			}
+			this.setSampleValueAt((int) targetIndex, s.getSampleValueAt((int) sourceIndex));
+		}
+	}
+	
+	
+	/*
+	 * Program 87: Playing a Sound in a Range of Frequencies
+	 */
+	public void play5Freq()
+	{
+		Sound s = null;
+		
+		// loop 5 times but start with 1 and end at 5
+		for (int i = 1; i < 6; i++)
+		{
+			// reset the sound
+			s = new Sound(this.getFileName());
+			
+			// change the Frequency
+			s.changeFreq(i);
+			
+			// play the sound
+			s.blockingPlay();
+		}
+	}
+	
+	/*
+	 * Program 88: Generate a Sine Wave and Given Frequency and Amplitude
+	 */
+	public static Sound createSineWave(int freq, int maxAmplitude)
+	{
+		Sound s = new Sound(FileChooser.getMediaPath("sec1silence.wav"));
+		double samplingRate = s.getSamplingRate();
+		double rawValue = 0;
+		int value = 0;
+		double interval = 1.0 / freq;	//length of cycle in seconds
+		double samplesPerCycle = interval * samplingRate;
+		double maxValue = 2 * Math.PI;
+		
+		// loop through the length of the sound
+		for (int i = 0; i < s.getLength(); i++)
+		{
+			// calculate the value between -1 and 1
+			rawValue = Math.sin((i / samplesPerCycle) * maxValue);
+			
+			// multiply by the desired max amplitude
+			value = (int)(maxAmplitude * rawValue);
+			
+			// set the value at this index
+			s.setSampleValueAt(i, value);
+			
+		}
+		return s;
+	}
+	
+	
+	/*
+	 * Program 89: Add Two Sounds Together
+	 */
+	public void add(Sound source)
+	{
+		int value = 0; 	// holder for new value
+		
+		// loop through all of the source
+		for (int i = 0; i < source.getLength(); i++)
+		{
+			// add source sound value and this sound value
+			value = this.getSampleValueAt(i) + source.getSampleValueAt(i);
+			
+			// set the value in this sound to the new value
+			this.setSampleValueAt(i, value);
+		}
+	}
+	
+	/*
+	 * Program 90: Square Wave Ganerator for Given Frequency and Amplitude
+	 */
+	public static Sound createSquareWave(int freq, int maxAmplitude)
+	{
+		Sound s = new Sound(FileChooser.getMediaPath("sec1silence.wav"));
+		double samplingRate = s.getSamplingRate();
+		int value = 0;
+		double interval = 1.0 / freq; 	// length of cycle in seconds
+		double samplesPerCycle = interval * samplingRate;
+		double samplesPerHalfCycle = (int) (samplesPerCycle / 2);
+		
+		// loop through the length of the sound
+		for (int soundIndex = 0, sampleCounter = 0; soundIndex < s.getLength(); soundIndex++, sampleCounter++)
+		{
+			// check if in first half of cycle
+			if (sampleCounter < samplesPerHalfCycle)
+			{
+				value = maxAmplitude;
+			}
+			else
+			{
+				// make the value negative
+				value = maxAmplitude * -1;
+				
+				// if the sample counter is greater than the samples per cycle reset it to 0
+				if (sampleCounter > samplesPerCycle)
+				{
+					sampleCounter = 0;
+				}
+			}
+			// set the value
+			s.setSampleValueAt(soundIndex,  value);
+		}
+		return s;
+	}
+	
+	/*
+	 * Program 91: Triangle Wave Generator
+	 */
+	public static Sound createTriangleWave(int freq, int maxAmplitude)
+	{
+		Sound s = new Sound(FileChooser.getMediaPath("sec1silence.wav"));
+		double samplingRate = s.getSamplingRate();
+		int value = 0;
+		double interval = 1.0 / freq; 	// length of cycle in seconds
+		double samplesPerCycle = interval * samplingRate;
+		double samplesPerQuaterCycle = (int) (samplesPerCycle / 4);
+		int increment = (int)(maxAmplitude / samplesPerQuaterCycle);
+		
+		// loop through the length of the sound
+		for (int soundIndex = 0; soundIndex < s.getLength(); soundIndex++, value = value + increment)
+		{
+			// check if the value is equal to the desired max
+			if (value >= maxAmplitude || value <= maxAmplitude * -1)
+			{
+				increment = increment * -1;
+				value = value + increment;
+			}
+			
+			// set the sample value
+			s.setSampleValueAt(soundIndex, value);
+		}
+		return s;
+	}
+	
+
+	
   /************************************************************
    * Method to return the string representation of this sound
    * @return a string with information about this sound
@@ -634,9 +930,119 @@ public class Sound extends SimpleSound
   public static void main(String[] args)
   {
 	  
-	  // Problem 9.13:
+	  MidiPlayer player = new MidiPlayer();
+	  player.setInstrument(MidiPlayer.PIANO);
+	  player.playJingleBells();
+	  
+	  
+	  
+	  /*
+	  // Program 91: Triangle Wave Generator
+	  Sound triangle = Sound.createTriangleWave(440, 4000);
+	  triangle.play();
+	  triangle.explore();
+	  */
+	   
+	  /*
+	  // Program 90: Square Wave Ganerator for Given Frequency and Amplitude
+	  Sound sq440 = Sound.createSquareWave(440, 4000);
+	  sq440.play();
+	  Sound sq880 = Sound.createSquareWave(880, 8000);
+	  sq880.play();
+	  Sound sq1320 = Sound.createSquareWave(1320, 10000);
+	  sq1320.play();
+	  sq440.add(sq880);
+	  sq440.add(sq1320);
+	  sq440.play();
+	  sq440.write(FileChooser.getMediaPath("squareCombined.wav"));
+	  */
+	  
+	  /*
+	  // Program 89: Add Two Sounds Together
+	  Sound s440 = Sound.createSineWave(440, 2000);
+	  Sound s880 = Sound.createSineWave(880, 4000);
+	  Sound s1320 = Sound.createSineWave(1320, 8000);
+	  s440.add(s880);
+	  s440.add(s1320);
+	  s440.explore();
+	  Sound orig440 = Sound.createSineWave(440, 2000);
+	  orig440.explore();
+	  */
+	  
+	  /*
+	  // Program 88: Generate a Sine Wave at a Given Frequency and Amplitude
+	  Sound s = Sound.createSineWave(880, 4000);
+	  s.explore();
+	  */	  
+	  
+	  /*
+	  // Program 87: Play a Sound in a Range of Frequencies - BROKEN BROKEN BROKEN
+	  Sound s = new Sound(FileChooser.getMediaPath("c4.wav"));
+	  s.play5Freq();
+	  */
+	  
+	  /*
+	  // Program 86: Changing the Frequency of a Sound
+	  Sound s = new Sound(FileChooser.getMediaPath("c4.wav"));
+	  s.explore();
+	  s.changeFreq2(0.75);
+	  s.explore();
+	  */
+	  
+	  /*
+	  // Program 85: Change Frequency
+	  Sound s = new Sound(FileChooser.getMediaPath("c4.wav"));
+	  s.explore();
+	  s.changeFreq(0.75);
+	  s.explore();
+	  */
+	  
+	  /*
+	  // Program 84: Halve the Frequency
+	  Sound s = new Sound(FileChooser.getMediaPath("c4.wav"));
+	  s.halveFreq();
+	  s.play();
+	  */
+	  /*
+	  // Program: 83 Double The Frequency
+	  Sound s1 = new Sound(FileChooser.getMediaPath("c4.wav"));
+	  //s.explore();
+	  s1.doubleFreq();
+	  s1.play();
+	  */
+	  
+	  /*
+	  // Program: 82 Create Multiple Echo's
+	  Sound sound = new Sound(FileChooser.getMediaPath("croak.wav"));
+	  Sound echo = sound.echo(8000, 5);
+	  echo.play();
+	  */
+	  
+	  /*
+	  // Program: 81 Make a Sound and a Single Echo of it
+	  Sound sound = new Sound(FileChooser.getMediaPath("thisisatest.wav"));
+	  sound.explore();
+	  sound.echo(20000);
+	  sound.explore();
+	  */
+
+	  /*
+	  // Program 80: Blending Two Sounds
+	  String fileName = FileChooser.getMediaPath("sec3silence.wav");
+	  Sound target = new Sound(fileName);
+	  target.explore();
+	  target.blendingSounds();
+	  target.explore();
+	  */
+	  
+	  // chapter 10 ==================================================================
+	  
+	  /*
+	  // Problem 9.13: ============up to here for homework===========================
+	   * 
 	  String f = FileChooser.getMediaPath("preamble.wav");
 	  Sound s = new Sound(f);
+	  */
 	  
 	  // get sample rate
 	 // int seconds = 1;
@@ -645,7 +1051,7 @@ public class Sound extends SimpleSound
 	 // System.out.println(s.getLength());
 	  
 //	  s.explore();
-	  s.decreaseAtARate(s, 1);
+	 // s.decreaseAtARate(s, 1);
 //	  s.normalizeAmount(1);
 //	  s.explore();
 	  
