@@ -930,10 +930,19 @@ public class Sound extends SimpleSound
   public static void main(String[] args)
   {
 	  
+	  // Program: 83 Double The Frequency
+	  Sound s1 = new Sound(FileChooser.getMediaPath("thisisatest.wav"));
+	  //s.explore();
+	  s1.doubleFreq();
+	  s1.play();
+
+	  
+	  
+	  /*
 	  MidiPlayer player = new MidiPlayer();
 	  player.setInstrument(MidiPlayer.PIANO);
 	  player.playJingleBells();
-	  
+	  */
 	  
 	  
 	  /*
@@ -1098,6 +1107,7 @@ public class Sound extends SimpleSound
 	  target.splicePreamble2();
 	  target.explore();
 	  */
+	  
 	  /*
 	  // Program 74: 
 	  String silence = FileChooser.getMediaPath("sec3silence.wav");	
